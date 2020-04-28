@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin {
+  Future _futureBuilderFuture;
   String _company;
   double _weight;
   //点击柱状图触发的函数
@@ -20,6 +21,12 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
       _company = selectedDatum.first.datum.name;
       _weight = selectedDatum.first.datum.weight;
     });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _futureBuilderFuture = _getHomeContent();
   }
   var _data = {};
   @override
@@ -34,7 +41,7 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
         ),
       ),
       body: FutureBuilder(
-        future: _getHomeContent(context),
+        future: _futureBuilderFuture,
         builder: (context, snapshot) {
           if(snapshot.hasData) {
             var data = snapshot.data;
@@ -120,7 +127,7 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
       )
     );
   }
-  Future _getHomeContent(BuildContext context) async {
+  Future _getHomeContent() async {
     var data = {};
     await request("passTotalWeight", "7 day").then((val) {
       data["passTotalWeight"] = val[0][0];
@@ -147,6 +154,7 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
       data["carsNum"] = val[0][0];
       data["avgWeight"] = val[0][1];
     });
+    return data;
     return data;
   }
   bool get wantKeepAlive => true;

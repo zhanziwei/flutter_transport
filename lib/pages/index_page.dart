@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:fluttertransport/pages/counter_page.dart';
 import 'package:fluttertransport/pages/home_page.dart';
 import 'package:fluttertransport/pages/line_chart_page.dart';
+import 'package:fluttertransport/pages/table_page.dart';
 import 'package:fluttertransport/provider/home_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -17,8 +17,8 @@ class _IndexPageState extends State<IndexPage> {
   final PageController _pageController = PageController();
   List<Widget> _pageList = [
     HomePage(),
-    CounterPage(title: 'Flutter Demo Home Page'),
     LineChartPage(),
+    TablePage(),
   ];
 
   _buildBottomAppBar() {

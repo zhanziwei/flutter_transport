@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertransport/pages/counter_page.dart';
 import 'package:fluttertransport/pages/index_page.dart';
 import 'package:fluttertransport/provider/home_provider.dart';
 import 'package:fluttertransport/services/service_method.dart';
