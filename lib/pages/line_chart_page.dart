@@ -80,7 +80,7 @@ class _LineChartPageState extends State<LineChartPage> with AutomaticKeepAliveCl
   Future _getLineChart() async {
     List data = [];
     var dataMap = {};
-    await request("totalWeightByDay", "1 week").then((val){
+    await request("totalWeightByDay", time: "1 week").then((val){
       print(val);
       data = val;
     });

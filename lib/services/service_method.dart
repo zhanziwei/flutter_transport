@@ -1,7 +1,7 @@
 import 'package:fluttertransport/config/service_url.dart';
 import 'package:postgres/postgres.dart';
 
-Future request(operation, time) async {
+Future request(operation, {time}) async {
   var serviceURL = {
     "passTotalWeight": "select Cheak_Total_Weight_By_Time('$time');",
     "fiveCompany": "select * from Total_Weight_Rank_BY_Company('$time');",

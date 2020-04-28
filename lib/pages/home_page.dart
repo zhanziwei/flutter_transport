@@ -33,12 +33,10 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Center(
-          child: Text(
-            '首页',
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
+        backgroundColor: Color.fromRGBO(29, 160, 225, 1),
+        brightness: Brightness.light,
+        leading: Icon(Icons.home),
+        title: Text("首页", style: TextStyle(fontSize: 20),),
       ),
       body: FutureBuilder(
         future: _futureBuilderFuture,
@@ -48,8 +46,10 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
             return ListView(
               children: <Widget>[
                 Container(
+                  width: 200,
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text("7天内总吨数"),
                       Text(data["passTotalWeight"].toString()),
@@ -129,10 +129,10 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
   }
   Future _getHomeContent() async {
     var data = {};
-    await request("passTotalWeight", "7 day").then((val) {
+    await request("passTotalWeight", time: "7 day").then((val) {
       data["passTotalWeight"] = val[0][0];
     });
-    await request("fiveCompany", "7 day").then((val) {
+    await request("fiveCompany", time: "7 day").then((val) {
       List<OrdinalSales> companies = [];
       for(var item in val) {
         OrdinalSales s = new OrdinalSales(item[0], item[1]);
@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
       ];
     });
     
-    await request("totalAvgWeight", "7 day").then((val) {
+    await request("totalAvgWeight", time: "7 day").then((val) {
       data["carsNum"] = val[0][0];
       data["avgWeight"] = val[0][1];
     });
