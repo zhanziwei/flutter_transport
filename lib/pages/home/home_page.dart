@@ -36,12 +36,10 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Center(
-          child: Text(
-            '首页',
-            style: TextStyle(fontSize: 20),
+        title: Text(
+              '首页',
+              style: TextStyle(fontSize: 20),
           ),
-        ),
       ),
       body: FutureBuilder(
         future: _futureBuilderFuture,

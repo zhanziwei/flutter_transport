@@ -118,9 +118,7 @@ class TablePageState extends State<TablePage>   with AutomaticKeepAliveClientMix
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Center(
-          child: Text("订单表", style: TextStyle(fontSize: 20),),
-        ),
+        title:  Text("订单表", style: TextStyle(fontSize: 20),),
       ),
       body: FutureBuilder(
         future: _re,
