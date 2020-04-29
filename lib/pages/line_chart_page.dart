@@ -39,7 +39,7 @@ class _LineChartPageState extends State<LineChartPage> with AutomaticKeepAliveCl
                 child: Container(
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(
-                        Radius.circular(18),
+                        Radius.circular(0),
                       ),
                       color: Color(0xff232d37)),
                   child: Padding(
@@ -81,7 +81,7 @@ class _LineChartPageState extends State<LineChartPage> with AutomaticKeepAliveCl
     List data = [];
     var dataMap = {};
     await request("totalWeightByDay", time: "1 week").then((val){
-      print(val);
+      //print(val);
       data = val;
     });
     dataMap["mainData"] = LineChartData(
@@ -138,10 +138,6 @@ class _LineChartPageState extends State<LineChartPage> with AutomaticKeepAliveCl
           ),
           getTitles: (value) {
             switch (value.toInt()) {
-              case 1:
-                return '1';
-              case 2:
-                return '2';
               case 3:
                 return '3';
               case 4:
@@ -150,8 +146,6 @@ class _LineChartPageState extends State<LineChartPage> with AutomaticKeepAliveCl
                 return '5';
               case 6:
                 return '6';
-              case 7:
-                return '7';
             }
             return '';
           },
@@ -163,19 +157,20 @@ class _LineChartPageState extends State<LineChartPage> with AutomaticKeepAliveCl
       FlBorderData(show: true, border: Border.all(color: const Color(0xff37434d), width: 1)),
       minX: 0,
       maxX: 11,
-      minY: 0,
+      minY: 3,
       maxY: 7,
       lineBarsData: [
         LineChartBarData(
           spots: [
-            FlSpot(0, data[0][1]/10000),
-            FlSpot(2, data[1][1]/10000),
-            FlSpot(4, data[2][1]/10000),
-            FlSpot(6, data[3][1]/10000),
-            FlSpot(8, data[4][1]/10000),
-            FlSpot(10,data[5][1]/10000),
-            FlSpot(11,data[6][1]/10000),
+            FlSpot(0, formatNum(data[0][1], 0)/10000),
+            FlSpot(2, formatNum(data[1][1], 0)/10000),
+            FlSpot(4, formatNum(data[2][1], 0)/10000),
+            FlSpot(6, formatNum(data[3][1], 0)/10000),
+            FlSpot(8, formatNum(data[4][1], 0)/10000),
+            FlSpot(10,formatNum(data[5][1], 0)/10000),
+            FlSpot(11,formatNum(data[6][1], 0)/10000),
           ],
+          
           isCurved: true,
           colors: gradientColors,
           barWidth: 5,
@@ -246,10 +241,6 @@ class _LineChartPageState extends State<LineChartPage> with AutomaticKeepAliveCl
           ),
           getTitles: (value) {
             switch (value.toInt()) {
-              case 1:
-                return '1';
-              case 2:
-                return '2';
               case 3:
                 return '3';
               case 4:
@@ -258,8 +249,6 @@ class _LineChartPageState extends State<LineChartPage> with AutomaticKeepAliveCl
                 return '5';
               case 6:
                 return '6';
-              case 7:
-                return '7';
             }
             return '';
           },
@@ -271,18 +260,18 @@ class _LineChartPageState extends State<LineChartPage> with AutomaticKeepAliveCl
       FlBorderData(show: true, border: Border.all(color: const Color(0xff37434d), width: 1)),
       minX: 0,
       maxX: 11,
-      minY: 0,
+      minY: 3,
       maxY: 7,
       lineBarsData: [
         LineChartBarData(
           spots: [
-            FlSpot(0, data[0][1]/10000),
-            FlSpot(2, data[1][1]/10000),
-            FlSpot(4, data[2][1]/10000),
-            FlSpot(6, data[3][1]/10000),
-            FlSpot(8, data[4][1]/10000),
-            FlSpot(10,data[5][1]/10000),
-            FlSpot(11,data[6][1]/10000),
+            FlSpot(0, formatNum(data[0][1], 0)/10000),
+            FlSpot(2, formatNum(data[1][1], 0)/10000),
+            FlSpot(4, formatNum(data[2][1], 0)/10000),
+            FlSpot(6, formatNum(data[3][1], 0)/10000),
+            FlSpot(8, formatNum(data[4][1], 0)/10000),
+            FlSpot(10,formatNum(data[5][1], 0)/10000),
+            FlSpot(11,formatNum(data[6][1], 0)/10000),
           ],
           isCurved: true,
           colors: [
@@ -307,4 +296,8 @@ class _LineChartPageState extends State<LineChartPage> with AutomaticKeepAliveCl
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
+  formatNum(double num,int postion){
+    return double.parse(num.toStringAsFixed(postion));
+  }
 }

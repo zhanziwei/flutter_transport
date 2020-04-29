@@ -64,6 +64,7 @@ class _HistogramWidgetState extends State<HistogramWidget> {
 class OrdinalSales {
   final String name;
   final int weight;
+
   OrdinalSales(this.name, this.weight);
 }
 

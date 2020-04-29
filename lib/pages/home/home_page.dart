@@ -1,5 +1,6 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:fluttertransport/pages/home/home_table.dart';
 import 'package:fluttertransport/provider/home_provider.dart';
 import 'package:fluttertransport/services/service_method.dart';
 import 'package:provider/provider.dart';
@@ -29,14 +30,18 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
     _futureBuilderFuture = _getHomeContent();
   }
   var _data = {};
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(29, 160, 225, 1),
-        brightness: Brightness.light,
-        leading: Icon(Icons.home),
-        title: Text("首页", style: TextStyle(fontSize: 20),),
+        leading: Center(
+          child: Text(
+            '首页',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
       ),
       body: FutureBuilder(
         future: _futureBuilderFuture,
@@ -45,15 +50,25 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
             var data = snapshot.data;
             return ListView(
               children: <Widget>[
-                Container(
-                  width: 200,
-                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                /*Container(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       Text("7天内总吨数"),
-                      Text(data["passTotalWeight"].toString()),
+                      Text(data["passTotalWeight_7day"].toString()),
                     ],
+                  ),
+                ),*/
+                Container(
+                  child: Center(
+                    child: Text("一周内运输量排名前五的公司",
+                      style: TextStyle(
+                        color: Colors.lightBlue[900],
+                        fontSize: 30,
+                        height: 2,
+                        background: new Paint()..color=Colors.white10,
+                      ),
+                      ),
                   ),
                 ),
                 Container(
@@ -64,13 +79,23 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
                         Expanded(
                           child: Container(
                             alignment: Alignment.center,
-                            child: Text("公司：${(_company == null) ? '点击柱状图获取' : _company}"),
+                            child: Text("公司：${(_company == null) ? '点击柱状图获取' : _company}",
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 16
+                                  )
+                              ),
                           ),
                         ),
                         Expanded(
                           child: Container(
                             alignment: Alignment.center,
-                            child: Text("重量：${(_weight == null) ? '0' : _weight.toStringAsFixed(3)}"),
+                            child: Text("重量(吨)：${(_weight == null) ? '0' : _weight.toStringAsFixed(3)}",
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 16
+                                  )
+                              ),
                           ),
                         )
                       ],
@@ -95,10 +120,20 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
                 ),
                 Container(
                   child: Center(
-                    child: Text("7天内排名前五的公司"),
+                    child: Text("近期历史数据统计表",
+                      style: TextStyle(
+                        color: Colors.lightBlue[900],
+                        fontSize: 28,
+                        height: 2,
+                        background: new Paint()..color=Colors.white10,
+                      ),
+                      ),
                   ),
                 ),
                 Container(
+                  child: Hometable(),
+                ),
+                /*Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
@@ -115,9 +150,10 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
                       Text(data["avgWeight"].toStringAsFixed(3).toString()),
                     ],
                   ),
-                )
+                )*/
               ],
             );
+            
           } else {
             return Center(
               child: CircularProgressIndicator(),
@@ -127,18 +163,16 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
       )
     );
   }
+  
+  
   Future _getHomeContent() async {
     var data = {};
-    await request("passTotalWeight", time: "7 day").then((val) {
-      data["passTotalWeight"] = val[0][0];
-    });
     await request("fiveCompany", time: "7 day").then((val) {
       List<OrdinalSales> companies = [];
       for(var item in val) {
         OrdinalSales s = new OrdinalSales(item[0], item[1]);
         companies.add(s);
       }
-
       data["companies"] = [
         new charts.Series<OrdinalSales, String>(
           id: 'Sales',
@@ -149,12 +183,7 @@ class _HomePageState extends State<HomePage>  with AutomaticKeepAliveClientMixin
         )
       ];
     });
-    
-    await request("totalAvgWeight", time: "7 day").then((val) {
-      data["carsNum"] = val[0][0];
-      data["avgWeight"] = val[0][1];
-    });
-    return data;
+
     return data;
   }
   bool get wantKeepAlive => true;
